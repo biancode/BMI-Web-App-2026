@@ -5,11 +5,11 @@
 - Übersicht über die verschiedenen reiter der Web App
 
 ```
-Footer + Header + Burger Menu - welches an einzelne seiten weiterleitet (forms tabels etc.) 
+Footer + Header + Burger Menu - Home Page welche an einzelne seiten weiterleitet (forms settings etc.) 
 ```
 
 - Graphiken
 
 ```
-    Zeit/Datums masierte tabelle mit BMI daten - später erweiterbar
+    Zeit/Datums basierte tabelle mit BMI daten - später erweiterbar
 ```
