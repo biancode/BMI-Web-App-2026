@@ -142,3 +142,5 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 .vs/
+# Generated Tailwind CSS
+/src/output.css
