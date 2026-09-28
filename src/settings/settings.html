@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Einstellungen</title>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body>
+    <header class="app-header page-header">
+      <h1 class="page-title" id="settings-title">Einstellungen</h1>
+    </header>
+
+    <main class="app-main page-body">
+      <div class="settings-stack">
+        <form class="settings-form" id="settings-form" novalidate>
+          <section class="settings-group">
+            <h2 class="settings-group__title">Konto</h2>
+
+            <div class="field">
+              <label class="field__label" for="username">Benutzername</label>
+              <input
+                class="field__input"
+                type="text"
+                id="username"
+                name="username"
+                autocomplete="username"
+                placeholder="z. B. maxmuster"
+              />
+              <p class="field__error" id="username-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="email">E-Mail Adresse</label>
+              <input
+                class="field__input"
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                placeholder="z. B. max@beispiel.de"
+              />
+              <p class="field__error" id="email-error" aria-live="polite"></p>
+            </div>
+          </section>
+
+          <section class="settings-group">
+            <h2 class="settings-group__title">Persönliche Angaben</h2>
+
+            <div class="field">
+              <label class="field__label" for="wish-bmi">Wunsch BMI</label>
+              <input class="field__input" type="number" id="wish-bmi" name="wishBmi" min="10" max="60" step="0.1" />
+              <p class="field__error" id="wish-bmi-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="height">Größe (cm)</label>
+              <input class="field__input" type="number" id="height" name="height" min="50" max="260" />
+              <p class="field__error" id="height-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="age">Alter</label>
+              <input class="field__input" type="number" id="age" name="age" min="1" max="120" />
+              <p class="field__error" id="age-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="gender">Geschlecht</label>
+              <select class="field__input" id="gender" name="gender">
+                <option value="">Keine Angabe</option>
+                <option value="female">Weiblich</option>
+                <option value="male">Männlich</option>
+                <option value="diverse">Divers</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="settings-group">
+            <h2 class="settings-group__title">Darstellung</h2>
+
+            <div class="field">
+              <div class="theme-options">
+                <input class="theme-options__input" type="radio" id="theme-light" name="theme" value="light" />
+                <label class="theme-options__button" for="theme-light">Light</label>
+
+                <input class="theme-options__input" type="radio" id="theme-dark" name="theme" value="dark" />
+                <label class="theme-options__button" for="theme-dark">Dark</label>
+              </div>
+              <p class="field__hint">Die Auswahl wirkt sofort und wird beim Speichern übernommen.</p>
+            </div>
+          </section>
+
+          <button class="button" type="submit">Speichern</button>
+
+          <p class="settings-status" id="settings-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <form class="settings-form" id="password-form" novalidate>
+          <section class="settings-group">
+            <h2 class="settings-group__title">Passwort ändern</h2>
+
+            <div class="field">
+              <label class="field__label" for="current-password">Aktuelles Passwort</label>
+              <input
+                class="field__input"
+                type="password"
+                id="current-password"
+                name="currentPassword"
+                autocomplete="current-password"
+              />
+              <p class="field__error" id="current-password-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="new-password">Neues Passwort</label>
+              <input
+                class="field__input"
+                type="password"
+                id="new-password"
+                name="newPassword"
+                autocomplete="new-password"
+              />
+              <p class="field__hint">Mindestens 8 Zeichen.</p>
+              <p class="field__error" id="new-password-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="repeat-password">Neues Passwort wiederholen</label>
+              <input
+                class="field__input"
+                type="password"
+                id="repeat-password"
+                name="repeatPassword"
+                autocomplete="new-password"
+              />
+              <p class="field__error" id="repeat-password-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="checkbox">
+                <input class="checkbox__input" type="checkbox" id="show-passwords" />
+                <span>Passwörter anzeigen</span>
+              </label>
+            </div>
+          </section>
+
+          <button class="button" type="submit">Passwort ändern</button>
+
+          <p class="settings-status" id="password-status" role="status" aria-live="polite"></p>
+
+          <p class="field__hint">Das Passwort wird direkt an den Server gesendet.</p>
+        </form>
+      </div>
+    </main>
+
+    <script src="settings.js"></script>
+  </body>
+</html>
