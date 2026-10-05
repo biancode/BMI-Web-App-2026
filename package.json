@@ -1,10 +1,14 @@
 {
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
-    "tailwindcss": "^4.3.3"
+    "concurrently": "^10.0.5",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.2"
   },
   "scripts": {
-    "dev": "tailwindcss -i ./src/input.css -o ./public/css/styles.dev.css --watch",
+    "dev": "npm run build && concurrently --kill-others --names css,web \"npm run dev:css\" \"npm run dev:web\"",
+    "dev:css": "tailwindcss -i ./src/input.css -o ./public/css/styles.min.css --minify --watch",
+    "dev:web": "vite --host localhost --port 5173 --strictPort --open /src/index/index.html",
     "build": "tailwindcss -i ./src/input.css -o ./public/css/styles.min.css --minify"
   }
 }
