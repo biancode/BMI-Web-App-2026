@@ -53,22 +53,105 @@
     </div>
 
     <script>
-        function LoadPage(url)
+        async function LoadPage(url)
         {
             try
             {
                 console.log("Loading Page: " + url);
-                document.getElementById("custom-body").innerHTML = `
-                    <div>
-                        <iframe style="width: 100%; height: 50vh; border: 0" src="${url}"></iframe>
-                    </div>
-                `;
+                const container = document.getElementById("custom-body");
+                if (!container) return;
+
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${url}: ${response.status} ${response.statusText}`);
+                }
+
+                const htmlText = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, "text/html");
+
+                // Remove previous page-specific stylesheets and inject new ones
+                document.querySelectorAll("[data-page-style]").forEach(el => el.remove());
+
+                const stylesAndLinks = doc.querySelectorAll("link[rel='stylesheet'], style");
+                stylesAndLinks.forEach(styleEl => {
+                    if (styleEl.tagName.toLowerCase() === "link") {
+                        const link = document.createElement("link");
+                        link.rel = "stylesheet";
+                        link.href = new URL(styleEl.getAttribute("href"), new URL(url, window.location.href)).href;
+                        link.setAttribute("data-page-style", "true");
+                        document.head.appendChild(link);
+                    } else if (styleEl.tagName.toLowerCase() === "style") {
+                        const style = document.createElement("style");
+                        style.textContent = styleEl.textContent;
+                        style.setAttribute("data-page-style", "true");
+                        document.head.appendChild(style);
+                    }
+                });
+
+                // Extract scripts before setting innerHTML
+                const scripts = Array.from(doc.querySelectorAll("script"));
+                scripts.forEach(s => s.remove());
+
+                // Inject DOM content
+                container.innerHTML = doc.body.innerHTML;
+
+                // Load and execute scripts in order
+                for (const script of scripts) {
+                    const src = script.getAttribute("src");
+                    if (src) {
+                        const scriptUrl = new URL(src, new URL(url, window.location.href)).href;
+                        if (scriptUrl.startsWith("http://") || scriptUrl.startsWith("https://")) {
+                            await new Promise((resolve) => {
+                                const existing = document.querySelector(`script[src="${scriptUrl}"]`);
+                                if (existing) {
+                                    resolve();
+                                    return;
+                                }
+                                const scriptElem = document.createElement("script");
+                                scriptElem.src = scriptUrl;
+                                scriptElem.onload = () => resolve();
+                                scriptElem.onerror = () => resolve();
+                                document.head.appendChild(scriptElem);
+                            });
+                        } else {
+                            try {
+                                const scriptRes = await fetch(scriptUrl);
+                                if (scriptRes.ok) {
+                                    const scriptContent = await scriptRes.text();
+                                    const fn = new Function(scriptContent);
+                                    fn();
+                                }
+                            } catch (scriptErr) {
+                                console.error("Error executing script:", scriptUrl, scriptErr);
+                            }
+                        }
+                    } else if (script.textContent.trim()) {
+                        try {
+                            const fn = new Function(script.textContent);
+                            fn();
+                        } catch (scriptErr) {
+                            console.error("Error executing inline script:", scriptErr);
+                        }
+                    }
+                }
+
+                // Dispatch DOMContentLoaded event for any listeners
+                document.dispatchEvent(new Event("DOMContentLoaded"));
             }
             catch (e)
             {
-                console.log(e)
+                console.error("Error loading page:", e);
+                const container = document.getElementById("custom-body");
+                if (container) {
+                    container.innerHTML = `<div style="color: red; padding: 20px;">Failed to load page: ${e.message}</div>`;
+                }
             }
         }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            LoadPage('../dashboard/dashboard.html');
+        }, { once: true });
     </script>
 
 </body>
