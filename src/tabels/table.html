@@ -6,12 +6,15 @@
     <title>BMI-Tabelle</title>
     <link rel="stylesheet" href="./table.css">
     <script src="./table.js" defer></script>
+    <script src="../shared/app-settings.js"></script>
+    <script src="../shared/storage.js"></script>
   </head>
   <body>
     <main>
       <h1>BMI-Tabelle</h1>
-      <p id="message">Daten werden geladen …</p>
+      <p id="message" role="status">Daten werden geladen …</p>
 
+      <div class="table-scroll">
       <table>
         <thead>
           <tr>
@@ -26,6 +29,7 @@
         </thead>
         <tbody id="bmi-table-body"></tbody>
       </table>
+      </div>
     </main>
   </body>
 </html>
