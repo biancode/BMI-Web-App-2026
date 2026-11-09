@@ -1,6 +1,4 @@
-/* Einstellungen und Passwort werden über die API (Node-RED hinter nginx unter /api/) gespeichert. */
-
-const API_BASE = "/api";
+/* Datenquelle wird in src/shared/app-settings.js festgelegt. */
 
 const DEFAULT_SETTINGS = {
   username: "",
@@ -18,47 +16,9 @@ const GENDERS = ["", "female", "male", "diverse"];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const MIN_PASSWORD_LENGTH = 8;
 
-/* --- API ---------------------------------------------------- */
-
-class ApiError extends Error {
-  constructor(status, message) {
-    super(message);
-    this.status = status;
-  }
-}
-
-/* Ein Netzwerkfehler (Server nicht erreichbar) wirft ApiError mit status 0. */
-async function apiRequest(path, { method = "GET", body } = {}) {
-  let response;
-  try {
-    response = await fetch(`${API_BASE}${path}`, {
-      method,
-      headers: body ? { "Content-Type": "application/json" } : undefined,
-      body: body ? JSON.stringify(body) : undefined,
-    });
-  } catch (error) {
-    throw new ApiError(0, "Server nicht erreichbar.");
-  }
-
-  if (!response.ok) {
-    throw new ApiError(response.status, `Anfrage fehlgeschlagen (${response.status}).`);
-  }
-
-  const text = await response.text();
-  return text ? JSON.parse(text) : null;
-}
-
-function fetchSettings() {
-  return apiRequest("/settings");
-}
-
-function uploadSettings(settings) {
-  return apiRequest("/settings", { method: "PUT", body: settings });
-}
-
-function changePassword(currentPassword, newPassword) {
-  return apiRequest("/password", { method: "POST", body: { currentPassword, newPassword } });
-}
+const fetchSettings = () => BmiStorage.getSettings();
+const uploadSettings = (settings) => BmiStorage.saveSettings(settings);
+const changePassword = (current, next) => BmiStorage.changePassword(current, next);
 
 /* Unbekannte Felder vom Server ignorieren, ungültige Werte auf den Standard zurücksetzen. */
 function normalizeSettings(raw) {
@@ -214,7 +174,8 @@ function initSettings() {
   fillForm(form, DEFAULT_SETTINGS);
   applyTheme(DEFAULT_SETTINGS.theme);
 
-  fetchSettings()
+  async function loadSettings() {
+  return fetchSettings()
     .then((remote) => {
       if (!remote) return;
       const settings = normalizeSettings(remote);
@@ -222,8 +183,10 @@ function initSettings() {
       applyTheme(settings.theme);
     })
     .catch((error) => {
-      console.warn("Einstellungen konnten nicht geladen werden:", error);
+      showStatus(status, `Laden fehlgeschlagen: ${error.message}`, "error");
     });
+  }
+  loadSettings();
 
   /* Das Theme wirkt sofort, auch ohne Speichern. */
   form.elements.theme.forEach((radio) => {

@@ -1,4 +1,4 @@
-﻿# BMI Web App
+# BMI Web App
 
 ## Überblick
 
@@ -50,3 +50,14 @@ Jan - Gemini, lokale KI -> Auswertung von den Daten (Handlungsempfehlung, Motiva
 Alex - Datenbanken, Tabelle, API
 
 Zilke - Hardware besorgen (Raspberry PI 5 4gb, 32gb SD )
+
+## Datenquelle konfigurieren
+
+In `src/shared/app-settings.js` legt `storageMode` die Datenquelle fest:
+
+- `"local"` (Standard): Einstellungen und Gewichtseinträge im Browser speichern.
+- `"db"`: API unter `/api` verwenden (Node-RED/Backend und Weiterleitung erforderlich).
+
+Nach Änderungen die Seite neu laden. Vorhandene Daten werden nicht automatisch
+zwischen lokalem Speicher und Datenbank übertragen. Passwortänderungen benötigen
+den Datenbankmodus.
