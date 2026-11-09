@@ -1,5 +1,9 @@
 ﻿# BMI Web App
 
+## Überblick
+
+![img.png](public/assets/images/img.png)
+
 
 ## Nach dem Klonen oder bei geänderten Abhängigkeiten
 

@@ -1,24 +1,68 @@
 <!DOCTYPE html>
-
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <header class="dashboard-title-bar">
+            <h1>BMI Dashboard</h1>
+            <p class="subtitle">Overview of your recent BMI trackings</p>
+        </header>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Stats Overview -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Latest BMI</span>
+                <span class="stat-value" id="latest-bmi">--</span>
+                <span class="stat-subtext" id="latest-category">--</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Last Tracked Date</span>
+                <span class="stat-value small" id="latest-date">--</span>
+                <span class="stat-subtext" id="tracking-count">--</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">BMI Trend</span>
+                <span class="stat-value small" id="bmi-trend">--</span>
+                <span class="stat-subtext" id="bmi-change">--</span>
+            </div>
+        </section>
 
-        <title>BMI Calculator</title>
+        <!-- Chart Section -->
+        <section class="dashboard-card chart-card">
+            <h2>BMI Progression Over Time</h2>
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+        </section>
 
-        <link rel="stylesheet" href="dashboard.css">
-    </head>
+        <!-- Recent Trackings Table Section -->
+        <section class="dashboard-card table-card">
+            <h2>Recent Trackings</h2>
+            <div class="table-container">
+                <table class="recent-trackings-table">
+                    <thead>
+                        <tr>
+                            <th>Date Tracked</th>
+                            <th>BMI</th>
+                            <th>Category</th>
+                            <th>Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-trackings-body">
+                        <!-- Populated by dashboard.js using BmiTracking stub data -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
 
-    <body>
-
-        <canvas id="myChart" width="400" height="200"></canvas>
-
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="dashboard.js"></script>
-
-    </body>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+</body>
 </html>
 
