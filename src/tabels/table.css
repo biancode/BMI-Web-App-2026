@@ -26,3 +26,5 @@ td {
 th {
   background: #eee;
 }
+
+.table-scroll { overflow-x: auto; }

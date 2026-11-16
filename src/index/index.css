@@ -127,7 +127,7 @@ custom-body {
 
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 
-    border: 1px solid #e5e7eb;
+    border: 0;
 }
 
 custom-body p {
