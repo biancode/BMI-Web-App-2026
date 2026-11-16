@@ -33,18 +33,9 @@ Alle Felder dürfen leer bleiben. Gefüllte Felder werden vor dem Speichern gepr
 | PUT     | `/settings` | Einstellungen speichern       |
 | POST    | `/password` | Passwort ändern (`currentPassword`, `newPassword`) |
 
-Gespeichertes Objekt:
-
-```json
-{
-  "username": "",
-  "email": "",
-  "wishBmi": "",
-  "height": "",
-  "age": "",
-  "gender": "",
-  "theme": "light"
-}
-```
 
 Unbekannte Felder vom Server werden ignoriert, ungültige Werte für `theme` und `gender` auf den Standard zurückgesetzt. Antwortet `/password` mit 401 oder 403, gilt das aktuelle Passwort als falsch.
+
+## Wurde umgestellt auf den Localstorage
+
+Es wernde alle Daten im LocalStorage gespeichert später dann in der API und DB
