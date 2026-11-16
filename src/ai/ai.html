@@ -1,0 +1,38 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Meine Website</title>
+    <link rel="stylesheet" href="ai.css">
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-header">
+        <div>
+            <h3>KI-Assistent</h3>
+            <span class="status">
+                <span class="status-dot"></span>
+                Online
+            </span>
+        </div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+            Hallo! Wie kann ich dir helfen?
+        </div>
+    </div>
+
+    <form class="chat-input-area" id="chatForm">
+        <input
+            type="text"
+            id="chatInput"
+            placeholder="Nachricht schreiben..."
+            autocomplete="off"
+        />
+
+        <button type="submit">
+            Senden
+        </button>
+    </form>
+</div>
+    <script src="./ai.js"></script>
+</body>
